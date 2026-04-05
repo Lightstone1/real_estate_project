@@ -17,7 +17,7 @@ final as (
         c.client_type,
         c.first_name,
         c.last_name,
-        c.first_name || ' ' || c.last_name as client_full_name,
+        c.first_name || ' ' || c.last_name                     as client_full_name,
         c.company_name,
         c.date_of_birth,
         c.nationality,
@@ -35,7 +35,18 @@ final as (
 
         -- region
         r.region_name,
-        r.region_code
+        r.region_code,
+
+        -- calculations
+        datediff('year', c.date_of_birth, current_date())      as client_age,
+        case
+            when datediff('year', c.date_of_birth, current_date()) < 30 then '18-29'
+            when datediff('year', c.date_of_birth, current_date()) < 40 then '30-39'
+            when datediff('year', c.date_of_birth, current_date()) < 50 then '40-49'
+            when datediff('year', c.date_of_birth, current_date()) < 60 then '50-59'
+            else '60+'
+        end                                                     as age_band,
+        datediff('day', c.registered_at, current_date())       as days_since_registered
 
     from clients c
     left join cities ci on c.city_id = ci.city_id

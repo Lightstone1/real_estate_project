@@ -30,7 +30,11 @@ final as (
 
         -- location
         agency_city,
-        agency_region
+        agency_region,
+
+        -- calculations
+        seniority_band,
+        years_since_hired
 
     from agents_enriched
 )

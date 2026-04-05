@@ -43,7 +43,14 @@ final as (
         is_major_city,
         region_name,
         region_code,
-        price_multiplier
+        price_multiplier,
+
+        -- calculations
+        price_per_sqm,
+        property_age,
+        amenity_count,
+        size_category,
+        price_vs_market
 
     from properties_enriched
 )

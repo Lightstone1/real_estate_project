@@ -49,9 +49,10 @@ final as (
         pt.is_residential,
 
         -- city
+        c.city_id,
         c.city_name,
-        c.postal_code as city_postal_code,
-        c.population  as city_population,
+        c.postal_code                                           as city_postal_code,
+        c.population                                            as city_population,
         c.is_major_city,
 
         -- region
@@ -59,7 +60,24 @@ final as (
         r.region_code,
         r.region_name,
         r.price_multiplier,
-        r.capital_city
+        r.capital_city,
+
+        -- calculations
+        round(p.listing_price / nullif(p.size_sqm, 0), 2)      as price_per_sqm,
+        datediff('year', to_date(p.build_year::varchar, 'YYYY'), current_date())
+                                                                as property_age,
+        (case when p.has_parking = 1 then 1 else 0 end
+         + case when p.has_garden = 1 then 1 else 0 end
+         + case when p.has_balcony = 1 then 1 else 0 end)      as amenity_count,
+        case
+            when p.size_sqm < 50  then 'Small'
+            when p.size_sqm < 100 then 'Medium'
+            when p.size_sqm < 200 then 'Large'
+            else 'Extra Large'
+        end                                                     as size_category,
+        round(
+            p.listing_price - (pt.base_price_sqm * p.size_sqm * r.price_multiplier), 2
+        )                                                       as price_vs_market
 
     from properties p
     left join property_types pt on p.type_id = pt.type_id

@@ -24,7 +24,12 @@ final as (
         -- location
         city_name,
         region_name,
-        region_code
+        region_code,
+
+        -- calculations
+        client_age,
+        age_band,
+        days_since_registered
 
     from clients_enriched
 )
