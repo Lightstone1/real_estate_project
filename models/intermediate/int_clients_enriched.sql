@@ -17,7 +17,10 @@ final as (
         c.client_type,
         c.first_name,
         c.last_name,
-        c.first_name || ' ' || c.last_name                     as client_full_name,
+        coalesce(
+            nullif(trim(coalesce(c.first_name, '') || ' ' || coalesce(c.last_name, '')), ''),
+            c.company_name
+        )                                                       as client_full_name,
         c.company_name,
         c.date_of_birth,
         c.nationality,

@@ -1,0 +1,12 @@
+version: 2
+
+models:
+  - name: int_payment_details_enriched
+    columns:
+      - name: payment_id
+        tests:
+          - not_null
+          - unique
+      - name: payment_method
+        tests:
+          - not_null

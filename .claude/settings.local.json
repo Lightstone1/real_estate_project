@@ -12,7 +12,8 @@
       "Bash(git remote:*)",
       "Bash(git branch:*)",
       "Bash(git push:*)",
-      "Bash(dbt run:*)"
+      "Bash(dbt run:*)",
+      "Bash(dbt test:*)"
     ]
   }
 }

@@ -1,0 +1,12 @@
+version: 2
+
+models:
+  - name: dim_payment_details
+    columns:
+      - name: payment_id
+        tests:
+          - not_null
+          - unique
+      - name: payment_method
+        tests:
+          - not_null

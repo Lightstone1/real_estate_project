@@ -1,0 +1,30 @@
+version: 2
+
+models:
+  - name: dim_agents
+    columns:
+      - name: agent_id
+        tests:
+          - not_null
+          - unique
+      - name: agent_full_name
+        tests:
+          - not_null
+      - name: agent_email
+        tests:
+          - not_null
+      - name: agent_is_active
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [0, 1]
+      - name: seniority_band
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Junior', 'Mid-Level', 'Senior', 'Expert']
+      - name: agency_name
+        tests:
+          - not_null

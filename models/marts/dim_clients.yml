@@ -1,0 +1,30 @@
+version: 2
+
+models:
+  - name: dim_clients
+    columns:
+      - name: client_id
+        tests:
+          - not_null
+          - unique
+      - name: client_full_name
+        tests:
+          - not_null
+      - name: email
+        tests:
+          - not_null
+      - name: client_type
+        tests:
+          - not_null
+      - name: is_verified
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [0, 1]
+      - name: age_band
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['18-29', '30-39', '40-49', '50-59', '60+']

@@ -1,0 +1,34 @@
+version: 2
+
+models:
+  - name: int_transactions_enriched
+    columns:
+      - name: transaction_id
+        tests:
+          - not_null
+          - unique
+      - name: transaction_ref
+        tests:
+          - not_null
+          - unique
+      - name: property_id
+        tests:
+          - not_null
+      - name: client_id
+        tests:
+          - not_null
+      - name: agent_id
+        tests:
+          - not_null
+      - name: transaction_type
+        tests:
+          - not_null
+      - name: transaction_date
+        tests:
+          - not_null
+      - name: agreed_price
+        tests:
+          - not_null
+      - name: status
+        tests:
+          - not_null

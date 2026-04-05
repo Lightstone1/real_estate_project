@@ -1,0 +1,62 @@
+version: 2
+
+models:
+  - name: fct_transactions
+    columns:
+      - name: transaction_id
+        tests:
+          - not_null
+          - unique
+      - name: transaction_ref
+        tests:
+          - not_null
+          - unique
+      - name: property_id
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_properties')
+                field: property_id
+      - name: client_id
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_clients')
+                field: client_id
+      - name: agent_id
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_agents')
+                field: agent_id
+      - name: payment_id
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_payment_details')
+                field: payment_id
+      - name: transaction_type
+        tests:
+          - not_null
+      - name: transaction_date
+        tests:
+          - not_null
+      - name: agreed_price
+        tests:
+          - not_null
+      - name: status
+        tests:
+          - not_null
+      - name: transaction_year
+        tests:
+          - not_null
+      - name: transaction_month
+        tests:
+          - not_null
+      - name: transaction_quarter
+        tests:
+          - not_null

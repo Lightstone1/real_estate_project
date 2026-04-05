@@ -1,0 +1,42 @@
+version: 2
+
+models:
+  - name: int_properties_enriched
+    columns:
+      - name: property_id
+        tests:
+          - not_null
+          - unique
+      - name: city_id
+        tests:
+          - not_null
+      - name: agent_id
+        tests:
+          - not_null
+      - name: listing_price
+        tests:
+          - not_null
+      - name: size_sqm
+        tests:
+          - not_null
+      - name: is_available
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [0, 1]
+      - name: is_residential
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [0, 1]
+      - name: size_category
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Small', 'Medium', 'Large', 'Extra Large']
+      - name: price_per_sqm
+        tests:
+          - not_null
