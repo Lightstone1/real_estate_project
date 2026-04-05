@@ -1,0 +1,33 @@
+version: 2
+
+sources:
+  - name: real_estate
+    database: real_estate_raw_db
+    schema: real_estate
+    tables:
+      - name: AGENTS
+        columns:
+          - name: AGENT_ID
+            tests:
+              - not_null
+              - unique
+          - name: AGENCY_ID
+            tests:
+              - not_null
+              - relationships:
+                  arguments:
+                    to: source('real_estate', 'AGENCIES')
+                    field: AGENCY_ID
+          - name: LICENSE_NUMBER
+            tests:
+              - not_null
+              - unique
+          - name: EMAIL
+            tests:
+              - not_null
+          - name: IS_ACTIVE
+            tests:
+              - not_null
+              - accepted_values:
+                  arguments:
+                    values: [0, 1]

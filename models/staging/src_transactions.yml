@@ -1,0 +1,57 @@
+version: 2
+
+sources:
+  - name: real_estate
+    database: real_estate_raw_db
+    schema: real_estate
+    tables:
+      - name: TRANSACTIONS
+        columns:
+          - name: TRANSACTION_ID
+            tests:
+              - not_null
+              - unique
+          - name: TRANSACTION_REF
+            tests:
+              - not_null
+              - unique
+          - name: PROPERTY_ID
+            tests:
+              - not_null
+              - relationships:
+                  arguments:
+                    to: source('real_estate', 'PROPERTIES')
+                    field: PROPERTY_ID
+          - name: CLIENT_ID
+            tests:
+              - not_null
+              - relationships:
+                  arguments:
+                    to: source('real_estate', 'CLIENTS')
+                    field: CLIENT_ID
+          - name: AGENT_ID
+            tests:
+              - not_null
+              - relationships:
+                  arguments:
+                    to: source('real_estate', 'AGENTS')
+                    field: AGENT_ID
+          - name: PAYMENT_ID
+            tests:
+              - not_null
+              - relationships:
+                  arguments:
+                    to: source('real_estate', 'PAYMENT_DETAILS')
+                    field: PAYMENT_ID
+          - name: TRANSACTION_TYPE
+            tests:
+              - not_null
+          - name: TRANSACTION_DATE
+            tests:
+              - not_null
+          - name: AGREED_PRICE
+            tests:
+              - not_null
+          - name: STATUS
+            tests:
+              - not_null

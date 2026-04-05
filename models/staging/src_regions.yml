@@ -1,0 +1,20 @@
+version: 2
+
+sources:
+  - name: real_estate
+    database: real_estate_raw_db
+    schema: real_estate
+    tables:
+      - name: REGIONS
+        columns:
+          - name: REGION_ID
+            tests:
+              - not_null
+              - unique
+          - name: REGION_CODE
+            tests:
+              - not_null
+              - unique
+          - name: REGION_NAME
+            tests:
+              - not_null

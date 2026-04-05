@@ -1,0 +1,61 @@
+version: 2
+
+sources:
+  - name: real_estate
+    database: real_estate_raw_db
+    schema: real_estate
+    tables:
+      - name: PROPERTIES
+        columns:
+          - name: PROPERTY_ID
+            tests:
+              - not_null
+              - unique
+          - name: TYPE_ID
+            tests:
+              - not_null
+              - relationships:
+                  arguments:
+                    to: source('real_estate', 'PROPERTY_TYPES')
+                    field: TYPE_ID
+          - name: CITY_ID
+            tests:
+              - not_null
+              - relationships:
+                  arguments:
+                    to: source('real_estate', 'CITIES')
+                    field: CITY_ID
+          - name: AGENT_ID
+            tests:
+              - not_null
+              - relationships:
+                  arguments:
+                    to: source('real_estate', 'AGENTS')
+                    field: AGENT_ID
+          - name: IS_AVAILABLE
+            tests:
+              - not_null
+              - accepted_values:
+                  arguments:
+                    values: [0, 1]
+          - name: HAS_PARKING
+            tests:
+              - not_null
+              - accepted_values:
+                  arguments:
+                    values: [0, 1]
+          - name: HAS_GARDEN
+            tests:
+              - not_null
+              - accepted_values:
+                  arguments:
+                    values: [0, 1]
+          - name: HAS_BALCONY
+            tests:
+              - not_null
+              - accepted_values:
+                  arguments:
+                    values: [0, 1]
+          - name: LISTING_PRICE
+            tests:
+              - not_null

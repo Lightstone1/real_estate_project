@@ -1,0 +1,16 @@
+version: 2
+
+sources:
+  - name: real_estate
+    database: real_estate_raw_db
+    schema: real_estate
+    tables:
+      - name: ACCM_COMPLETION_UPDATE
+        columns:
+          - name: TXN_ID
+            tests:
+              - not_null
+              - unique
+          - name: ACCM_TXN_COMPLETE_TIME
+            tests:
+              - not_null

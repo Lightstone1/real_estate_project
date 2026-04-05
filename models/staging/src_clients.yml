@@ -1,0 +1,32 @@
+version: 2
+
+sources:
+  - name: real_estate
+    database: real_estate_raw_db
+    schema: real_estate
+    tables:
+      - name: CLIENTS
+        columns:
+          - name: CLIENT_ID
+            tests:
+              - not_null
+              - unique
+          - name: CLIENT_TYPE
+            tests:
+              - not_null
+          - name: EMAIL
+            tests:
+              - not_null
+          - name: CITY_ID
+            tests:
+              - not_null
+              - relationships:
+                  arguments:
+                    to: source('real_estate', 'CITIES')
+                    field: CITY_ID
+          - name: IS_VERIFIED
+            tests:
+              - not_null
+              - accepted_values:
+                  arguments:
+                    values: [0, 1]

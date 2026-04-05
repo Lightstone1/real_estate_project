@@ -1,0 +1,16 @@
+version: 2
+
+sources:
+  - name: real_estate
+    database: real_estate_raw_db
+    schema: real_estate
+    tables:
+      - name: PAYMENT_DETAILS
+        columns:
+          - name: PAYMENT_ID
+            tests:
+              - not_null
+              - unique
+          - name: PAYMENT_METHOD
+            tests:
+              - not_null
