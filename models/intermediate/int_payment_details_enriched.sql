@@ -1,5 +1,5 @@
-with payment_details_enriched as (
-    select * from {{ ref('int_payment_details_enriched') }}
+with payment_details as (
+    select * from {{ ref('stg_payment_details') }}
 ),
 
 final as (
@@ -11,7 +11,7 @@ final as (
         mortgage_rate,
         mortgage_term_years,
         down_payment_pct
-    from payment_details_enriched
+    from payment_details
 )
 
 select * from final
