@@ -1,0 +1,89 @@
+version: 2
+
+models:
+  - name: dim_date
+    description: >
+      Date dimension table generated using dbt_utils.date_spine covering
+      2015-01-01 to 2030-12-31. Provides calendar attributes for all
+      date-based analysis including year, quarter, month, week and day
+      breakdowns, plus weekend and season flags.
+    columns:
+      - name: date_id
+        description: Primary key — the date in YYYY-MM-DD format.
+        tests:
+          - not_null
+          - unique
+      - name: full_date
+        description: Full date value.
+        tests:
+          - not_null
+      - name: year
+        description: Calendar year (e.g. 2024).
+        tests:
+          - not_null
+      - name: quarter_number
+        description: Quarter number (1-4).
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [1, 2, 3, 4]
+      - name: quarter_name
+        description: Quarter label (e.g. Q1, Q2, Q3, Q4).
+        tests:
+          - not_null
+      - name: year_quarter
+        description: Year and quarter combined (e.g. 2024-Q1).
+        tests:
+          - not_null
+      - name: month_number
+        description: Month number (1-12).
+        tests:
+          - not_null
+      - name: month_name
+        description: Full month name (e.g. January).
+        tests:
+          - not_null
+      - name: month_short_name
+        description: Abbreviated month name (e.g. Jan).
+        tests:
+          - not_null
+      - name: year_month
+        description: Year and month combined (e.g. 2024-01).
+        tests:
+          - not_null
+      - name: week_number
+        description: ISO week number of the year (1-53).
+        tests:
+          - not_null
+      - name: day_of_month
+        description: Day number within the month (1-31).
+        tests:
+          - not_null
+      - name: day_of_year
+        description: Day number within the year (1-366).
+        tests:
+          - not_null
+      - name: day_of_week_number
+        description: Day of week number (0=Sunday, 6=Saturday).
+        tests:
+          - not_null
+      - name: day_name
+        description: Full day name (e.g. Monday).
+        tests:
+          - not_null
+      - name: is_weekend
+        description: True if the date falls on a Saturday or Sunday.
+        tests:
+          - not_null
+      - name: is_weekday
+        description: True if the date falls on a weekday.
+        tests:
+          - not_null
+      - name: season
+        description: Season — Winter, Spring, Summer, or Autumn.
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Winter', 'Spring', 'Summer', 'Autumn']
