@@ -1,17 +1,9 @@
 with agents as (
-    select * from {{ ref('stg_agents') }}
+    select * from {{ ref('int_agents_with_agency') }}
 ),
 
-agencies as (
-    select * from {{ ref('stg_agencies') }}
-),
-
-cities as (
-    select * from {{ ref('stg_cities') }}
-),
-
-regions as (
-    select * from {{ ref('stg_regions') }}
+location as (
+    select * from {{ ref('int_location_enriched') }}
 ),
 
 final as (
@@ -20,30 +12,30 @@ final as (
         a.agent_id,
         a.first_name,
         a.last_name,
-        a.first_name || ' ' || a.last_name                     as agent_full_name,
-        a.license_number                                        as agent_license_number,
-        a.email                                                 as agent_email,
-        a.phone                                                 as agent_phone,
+        a.agent_full_name,
+        a.agent_license_number,
+        a.agent_email,
+        a.agent_phone,
         a.hire_date,
         a.specialization,
         a.years_experience,
-        a.is_active                                             as agent_is_active,
+        a.agent_is_active,
 
         -- agency
-        ag.agency_id,
-        ag.agency_name,
-        ag.license_number                                       as agency_license_number,
-        ag.address                                              as agency_address,
-        ag.phone                                                as agency_phone,
-        ag.email                                                as agency_email,
-        ag.website                                              as agency_website,
-        ag.established_year,
-        ag.is_active                                            as agency_is_active,
+        a.agency_id,
+        a.agency_name,
+        a.agency_license_number,
+        a.agency_address,
+        a.agency_phone,
+        a.agency_email,
+        a.agency_website,
+        a.established_year,
+        a.agency_is_active,
 
         -- location
-        c.city_name                                             as agency_city,
-        c.is_major_city,
-        r.region_name                                           as agency_region,
+        l.city_name                                             as agency_city,
+        l.is_major_city,
+        l.region_name                                           as agency_region,
 
         -- calculations
         case
@@ -55,9 +47,7 @@ final as (
         datediff('year', a.hire_date, current_date())           as years_since_hired
 
     from agents a
-    left join agencies ag on a.agency_id = ag.agency_id
-    left join cities c on ag.city_id = c.city_id
-    left join regions r on c.region_id = r.region_id
+    left join location l on a.agency_city_id = l.city_id
 )
 
 select * from final

@@ -1,17 +1,9 @@
 with properties as (
-    select * from {{ ref('stg_properties') }}
+    select * from {{ ref('int_properties_with_type') }}
 ),
 
-property_types as (
-    select * from {{ ref('stg_property_types') }}
-),
-
-cities as (
-    select * from {{ ref('stg_cities') }}
-),
-
-regions as (
-    select * from {{ ref('stg_regions') }}
+location as (
+    select * from {{ ref('int_location_enriched') }}
 ),
 
 final as (
@@ -41,26 +33,23 @@ final as (
         p.agent_id,
 
         -- property type
-        pt.type_code,
-        pt.type_name,
-        pt.base_price_sqm,
-        pt.typical_size_min,
-        pt.typical_size_max,
-        pt.is_residential,
+        p.type_code,
+        p.type_name,
+        p.base_price_sqm,
+        p.typical_size_min,
+        p.typical_size_max,
+        p.is_residential,
 
-        -- city
-        c.city_id,
-        c.city_name,
-        c.postal_code                                           as city_postal_code,
-        c.population                                            as city_population,
-        c.is_major_city,
-
-        -- region
-        r.region_id,
-        r.region_code,
-        r.region_name,
-        r.price_multiplier,
-        r.capital_city,
+        -- location
+        l.city_id,
+        l.city_name,
+        l.city_population,
+        l.is_major_city,
+        l.region_id,
+        l.region_code,
+        l.region_name,
+        l.price_multiplier,
+        l.capital_city,
 
         -- calculations
         round(p.listing_price / nullif(p.size_sqm, 0), 2)      as price_per_sqm,
@@ -76,13 +65,11 @@ final as (
             else 'Extra Large'
         end                                                     as size_category,
         round(
-            p.listing_price - (pt.base_price_sqm * p.size_sqm * r.price_multiplier), 2
+            p.listing_price - (p.base_price_sqm * p.size_sqm * l.price_multiplier), 2
         )                                                       as price_vs_market
 
     from properties p
-    left join property_types pt on p.type_id = pt.type_id
-    left join cities c on p.city_id = c.city_id
-    left join regions r on c.region_id = r.region_id
+    left join location l on p.city_id = l.city_id
 )
 
 select * from final
