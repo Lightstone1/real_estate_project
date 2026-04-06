@@ -1,0 +1,5 @@
+payment_method,payment_label,requires_bank
+Cash,Cash Payment,false
+Mortgage,Mortgage Loan,true
+Bank Transfer,Bank Transfer,true
+Installment,Installment Plan,false

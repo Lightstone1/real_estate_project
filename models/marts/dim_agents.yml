@@ -2,29 +2,57 @@ version: 2
 
 models:
   - name: dim_agents
+    description: >
+      Dimension table for all agents and their associated agencies.
+      Includes location, seniority classification, and active status labels.
     columns:
       - name: agent_id
+        description: Unique identifier for each agent.
         tests:
           - not_null
           - unique
       - name: agent_full_name
+        description: Full name of the agent (first + last name).
         tests:
           - not_null
       - name: agent_email
+        description: Email address of the agent.
         tests:
           - not_null
       - name: agent_is_active
+        description: Flag indicating if the agent is active (1=Yes, 0=No).
         tests:
           - not_null
           - accepted_values:
               arguments:
                 values: [0, 1]
+      - name: agent_status
+        description: Human-readable active status label — Active or Inactive.
+      - name: specialization
+        description: Agent's area of specialization (e.g. Residential, Commercial).
       - name: seniority_band
+        description: Seniority classification based on years_experience — Junior, Mid-Level, Senior, or Expert.
         tests:
           - not_null
           - accepted_values:
               arguments:
                 values: ['Junior', 'Mid-Level', 'Senior', 'Expert']
+      - name: years_since_hired
+        description: Number of years since the agent was hired.
       - name: agency_name
+        description: Name of the agency the agent belongs to.
         tests:
           - not_null
+      - name: agency_is_active
+        description: Flag indicating if the agency is active (1=Yes, 0=No).
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [0, 1]
+      - name: agency_status
+        description: Human-readable agency active status label — Active or Inactive.
+      - name: agency_city
+        description: City where the agency is located.
+      - name: agency_region
+        description: Region where the agency is located.

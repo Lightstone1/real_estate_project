@@ -2,23 +2,41 @@ version: 2
 
 models:
   - name: dim_location
+    description: >
+      Dimension table for all cities and their parent regions.
+      Used to provide geographic context across all other dimension tables.
     columns:
       - name: city_id
+        description: Unique identifier for each city.
         tests:
           - not_null
           - unique
       - name: city_name
+        description: Name of the city.
         tests:
           - not_null
-      - name: region_id
-        tests:
-          - not_null
-      - name: region_name
-        tests:
-          - not_null
+      - name: city_population
+        description: Population of the city.
       - name: is_major_city
+        description: Flag indicating if the city is a major city (1=Yes, 0=No).
         tests:
           - not_null
           - accepted_values:
               arguments:
                 values: [0, 1]
+      - name: region_id
+        description: Foreign key to the parent region.
+        tests:
+          - not_null
+      - name: region_name
+        description: Name of the region.
+        tests:
+          - not_null
+      - name: region_code
+        description: Short code for the region.
+      - name: capital_city
+        description: Name of the capital city of the region.
+      - name: price_multiplier
+        description: Regional price multiplier used to adjust base property prices.
+      - name: area_sqkm
+        description: Total area of the region in square kilometres.

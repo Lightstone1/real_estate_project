@@ -1,0 +1,45 @@
+version: 2
+
+exposures:
+  - name: real_estate_dashboard
+    type: dashboard
+    maturity: high
+    description: >
+      Main real estate analytics dashboard showing transaction performance,
+      property listings, agent productivity and client activity.
+    depends_on:
+      - ref('fct_transactions')
+      - ref('dim_properties')
+      - ref('dim_agents')
+      - ref('dim_clients')
+      - ref('dim_location')
+      - ref('dim_payment_details')
+    owner:
+      name: Lightstone1
+      email: flolightstone@gmail.com
+
+  - name: agent_performance_report
+    type: dashboard
+    maturity: medium
+    description: >
+      Report tracking agent and agency performance metrics including
+      total transactions, commission earned, and deal conversion rates.
+    depends_on:
+      - ref('fct_transactions')
+      - ref('dim_agents')
+    owner:
+      name: Lightstone1
+      email: flolightstone@gmail.com
+
+  - name: property_listings_report
+    type: dashboard
+    maturity: medium
+    description: >
+      Report on available property listings, pricing trends,
+      energy ratings, and market pricing comparisons by region.
+    depends_on:
+      - ref('dim_properties')
+      - ref('dim_location')
+    owner:
+      name: Lightstone1
+      email: flolightstone@gmail.com

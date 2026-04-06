@@ -2,11 +2,26 @@ version: 2
 
 models:
   - name: dim_payment_details
+    description: >
+      Dimension table for payment methods and financing details
+      associated with each transaction.
     columns:
       - name: payment_id
+        description: Unique identifier for each payment record.
         tests:
           - not_null
           - unique
       - name: payment_method
+        description: Method of payment — Cash, Mortgage, Bank Transfer, or Installment.
         tests:
           - not_null
+      - name: bank_name
+        description: Name of the bank involved in the payment (where applicable).
+      - name: iban
+        description: IBAN associated with the payment.
+      - name: mortgage_rate
+        description: Mortgage interest rate applied (where applicable).
+      - name: mortgage_term_years
+        description: Duration of the mortgage in years (where applicable).
+      - name: down_payment_pct
+        description: Down payment percentage of the total agreed price.

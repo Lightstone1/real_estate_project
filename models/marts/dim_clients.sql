@@ -19,6 +19,7 @@ final as (
         iban,
         tax_id,
         is_verified,
+        {{ active_flag_label('is_verified') }}                  as verification_status,
         registered_at,
 
         -- location

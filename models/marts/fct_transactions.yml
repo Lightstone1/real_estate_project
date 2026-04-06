@@ -2,16 +2,23 @@ version: 2
 
 models:
   - name: fct_transactions
+    description: >
+      Fact table containing all real estate transactions. Each row represents
+      a single transaction including sale or rental of a property. Contains
+      foreign keys to all dimension tables and key financial measures.
     columns:
       - name: transaction_id
+        description: Unique identifier for each transaction.
         tests:
           - not_null
           - unique
       - name: transaction_ref
+        description: Human-readable transaction reference code.
         tests:
           - not_null
           - unique
       - name: property_id
+        description: Foreign key to dim_properties.
         tests:
           - not_null
           - relationships:
@@ -19,6 +26,7 @@ models:
                 to: ref('dim_properties')
                 field: property_id
       - name: client_id
+        description: Foreign key to dim_clients.
         tests:
           - not_null
           - relationships:
@@ -26,6 +34,7 @@ models:
                 to: ref('dim_clients')
                 field: client_id
       - name: agent_id
+        description: Foreign key to dim_agents.
         tests:
           - not_null
           - relationships:
@@ -33,6 +42,7 @@ models:
                 to: ref('dim_agents')
                 field: agent_id
       - name: payment_id
+        description: Foreign key to dim_payment_details.
         tests:
           - not_null
           - relationships:
@@ -40,23 +50,46 @@ models:
                 to: ref('dim_payment_details')
                 field: payment_id
       - name: transaction_type
+        description: Type of transaction — SALE or RENT.
         tests:
           - not_null
       - name: transaction_date
-        tests:
-          - not_null
-      - name: agreed_price
+        description: Date the transaction was agreed.
         tests:
           - not_null
       - name: status
+        description: Current status of the transaction — COMPLETED, PENDING, or CANCELLED.
         tests:
           - not_null
       - name: transaction_year
-        tests:
-          - not_null
-      - name: transaction_month
+        description: Year extracted from transaction_date.
         tests:
           - not_null
       - name: transaction_quarter
+        description: Quarter extracted from transaction_date.
         tests:
           - not_null
+      - name: transaction_month
+        description: Month extracted from transaction_date.
+        tests:
+          - not_null
+      - name: listing_price
+        description: Original listed price of the property.
+      - name: agreed_price
+        description: Final agreed sale or rental price.
+        tests:
+          - not_null
+      - name: discount_amount
+        description: Discount given from listing price to agreed price.
+      - name: discount_pct
+        description: Discount as a percentage of the listing price.
+      - name: commission_rate
+        description: Commission rate applied to the transaction.
+      - name: commission_amount
+        description: Total commission earned on the transaction.
+      - name: price_achieved_pct
+        description: Agreed price as a percentage of listing price. 100% means no discount.
+      - name: contract_duration_days
+        description: Number of days between contract start and end dates.
+      - name: days_to_completion
+        description: Number of days from transaction date to completion.

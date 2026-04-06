@@ -34,18 +34,13 @@ final as (
         date_part('month', t.transaction_date)                  as transaction_month,
 
         -- measures
-        t.listing_price,
-        t.agreed_price,
-        t.discount_amount,
-        round(
-            case
-                when t.listing_price > 0
-                then (t.discount_amount / t.listing_price) * 100
-                else 0
-            end, 2
-        )                                                       as discount_pct,
+        {{ format_currency('t.listing_price') }}                as listing_price,
+        {{ format_currency('t.agreed_price') }}                 as agreed_price,
+        {{ format_currency('t.discount_amount') }}              as discount_amount,
+        {{ calculate_discount_pct('t.discount_amount', 't.listing_price') }}
+                                                                as discount_pct,
         t.commission_rate,
-        t.commission_amount,
+        {{ format_currency('t.commission_amount') }}            as commission_amount,
 
         -- calculated measures
         round(t.agreed_price / nullif(t.listing_price, 0) * 100, 2)

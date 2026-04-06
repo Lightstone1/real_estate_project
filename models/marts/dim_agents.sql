@@ -16,6 +16,7 @@ final as (
         specialization,
         years_experience,
         agent_is_active,
+        {{ active_flag_label('agent_is_active') }}              as agent_status,
 
         -- agency
         agency_id,
@@ -27,6 +28,7 @@ final as (
         agency_website,
         established_year,
         agency_is_active,
+        {{ active_flag_label('agency_is_active') }}             as agency_status,
 
         -- location
         agency_city,

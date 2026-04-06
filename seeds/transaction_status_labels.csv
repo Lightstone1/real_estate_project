@@ -1,0 +1,4 @@
+status,status_label,is_closed
+COMPLETED,Completed,true
+PENDING,Pending,false
+CANCELLED,Cancelled,true

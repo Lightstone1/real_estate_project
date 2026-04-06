@@ -1,0 +1,8 @@
+energy_class,energy_label,efficiency_rank,description
+A,Highly Efficient,1,Lowest energy consumption
+B,Very Efficient,2,Very low energy consumption
+C,Efficient,3,Low energy consumption
+D,Average,4,Average energy consumption
+E,Below Average,5,Above average energy consumption
+F,Inefficient,6,High energy consumption
+G,Very Inefficient,7,Highest energy consumption

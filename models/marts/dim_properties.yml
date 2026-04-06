@@ -2,41 +2,75 @@ version: 2
 
 models:
   - name: dim_properties
+    description: >
+      Dimension table for all real estate properties. Enriched with property type,
+      location, energy ratings, condition labels, and calculated pricing metrics.
     columns:
       - name: property_id
+        description: Unique identifier for each property.
         tests:
           - not_null
           - unique
       - name: address
+        description: Street address of the property.
         tests:
           - not_null
+      - name: size_sqm
+        description: Total size of the property in square metres.
       - name: listing_price
+        description: Listed price of the property rounded to 2 decimal places.
         tests:
           - not_null
       - name: is_available
+        description: Flag indicating if the property is currently available (1=Yes, 0=No).
         tests:
           - not_null
           - accepted_values:
               arguments:
                 values: [0, 1]
       - name: is_residential
+        description: Flag indicating if the property is residential (1) or commercial (0).
         tests:
           - not_null
           - accepted_values:
               arguments:
                 values: [0, 1]
+      - name: condition_status
+        description: Raw condition status of the property from source.
+      - name: condition_label
+        description: Human-readable condition label from the property_condition_labels seed.
+      - name: condition_rank
+        description: Rank of property condition from 1 (best) to 5 (worst).
+      - name: energy_class
+        description: Energy efficiency class rating (A to G).
+      - name: energy_label
+        description: Human-readable energy label from the energy_class_ratings seed.
+      - name: efficiency_rank
+        description: Rank of energy efficiency from 1 (most efficient) to 7 (least).
+      - name: type_name
+        description: Name of the property type (e.g. Apartment, Villa, Office).
+        tests:
+          - not_null
+      - name: city_name
+        description: Name of the city where the property is located.
+        tests:
+          - not_null
+      - name: region_name
+        description: Name of the region where the property is located.
+        tests:
+          - not_null
+      - name: price_per_sqm
+        description: Listing price divided by size in square metres.
+      - name: property_age
+        description: Age of the property in years calculated from build_year.
+      - name: amenity_count
+        description: Total count of amenities — parking, garden, balcony (max 3).
       - name: size_category
+        description: Categorised size band — Small, Medium, Large, or Extra Large.
         tests:
           - not_null
           - accepted_values:
               arguments:
                 values: ['Small', 'Medium', 'Large', 'Extra Large']
-      - name: type_name
-        tests:
-          - not_null
-      - name: city_name
-        tests:
-          - not_null
-      - name: region_name
-        tests:
-          - not_null
+      - name: price_vs_market
+        description: Difference between listing price and estimated market price based on base_price_sqm and region multiplier.

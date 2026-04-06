@@ -1,0 +1,6 @@
+condition_status,condition_label,condition_rank
+New,Brand New,1
+Good,Good Condition,2
+Fair,Fair Condition,3
+Poor,Poor Condition,4
+Renovation Required,Needs Renovation,5
