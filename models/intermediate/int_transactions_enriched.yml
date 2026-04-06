@@ -2,33 +2,52 @@ version: 2
 
 models:
   - name: int_transactions_enriched
+    description: >
+      Enriched transactions model joining transactions with properties, agents,
+      clients, payment details and completion timestamps. Includes calculated
+      fields such as price_achieved_pct, contract_duration_days and days_to_completion.
     columns:
       - name: transaction_id
+        description: Unique identifier for each transaction.
         tests:
           - not_null
           - unique
       - name: transaction_ref
+        description: Human-readable transaction reference code.
         tests:
           - not_null
           - unique
       - name: property_id
+        description: Foreign key to the property involved in the transaction.
         tests:
           - not_null
       - name: client_id
+        description: Foreign key to the client in the transaction.
         tests:
           - not_null
       - name: agent_id
+        description: Foreign key to the agent handling the transaction.
         tests:
           - not_null
       - name: transaction_type
+        description: Type of transaction — SALE or RENT.
         tests:
           - not_null
       - name: transaction_date
+        description: Date the transaction was agreed.
         tests:
           - not_null
       - name: agreed_price
+        description: Final agreed price for the transaction.
         tests:
           - not_null
       - name: status
+        description: Current status — COMPLETED, PENDING, or CANCELLED.
         tests:
           - not_null
+      - name: price_achieved_pct
+        description: Agreed price as a percentage of listing price.
+      - name: contract_duration_days
+        description: Number of days between contract start and end.
+      - name: days_to_completion
+        description: Number of days from transaction date to completion timestamp.

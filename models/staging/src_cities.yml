@@ -6,12 +6,15 @@ sources:
     schema: real_estate
     tables:
       - name: CITIES
+        description: Raw table containing all cities and their geographic data.
         columns:
           - name: CITY_ID
+            description: Unique identifier for each city.
             tests:
               - not_null
               - unique
           - name: REGION_ID
+            description: Foreign key referencing the region the city belongs to.
             tests:
               - not_null
               - relationships:
@@ -19,9 +22,11 @@ sources:
                     to: source('real_estate', 'REGIONS')
                     field: REGION_ID
           - name: CITY_NAME
+            description: Name of the city.
             tests:
               - not_null
           - name: IS_MAJOR_CITY
+            description: Flag indicating if the city is a major city (1=Yes, 0=No).
             tests:
               - not_null
               - accepted_values:

@@ -6,15 +6,19 @@ sources:
     schema: real_estate
     tables:
       - name: REGIONS
+        description: Raw table containing all geographic regions.
         columns:
           - name: REGION_ID
+            description: Unique identifier for each region.
             tests:
               - not_null
               - unique
           - name: REGION_CODE
+            description: Short code identifying the region.
             tests:
               - not_null
               - unique
           - name: REGION_NAME
+            description: Full name of the region.
             tests:
               - not_null

@@ -6,11 +6,14 @@ sources:
     schema: real_estate
     tables:
       - name: ACCM_COMPLETION_UPDATE
+        description: Raw table recording the completion timestamps for transactions.
         columns:
           - name: TXN_ID
+            description: Transaction reference ID linking to the TRANSACTIONS table.
             tests:
               - not_null
               - unique
           - name: ACCM_TXN_COMPLETE_TIME
+            description: Timestamp when the transaction was marked as completed.
             tests:
               - not_null

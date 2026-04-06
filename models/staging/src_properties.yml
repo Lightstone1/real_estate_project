@@ -6,12 +6,15 @@ sources:
     schema: real_estate
     tables:
       - name: PROPERTIES
+        description: Raw table containing all property listings.
         columns:
           - name: PROPERTY_ID
+            description: Unique identifier for each property.
             tests:
               - not_null
               - unique
           - name: TYPE_ID
+            description: Foreign key referencing the property type.
             tests:
               - not_null
               - relationships:
@@ -19,6 +22,7 @@ sources:
                     to: source('real_estate', 'PROPERTY_TYPES')
                     field: TYPE_ID
           - name: CITY_ID
+            description: Foreign key referencing the city where the property is located.
             tests:
               - not_null
               - relationships:
@@ -26,6 +30,7 @@ sources:
                     to: source('real_estate', 'CITIES')
                     field: CITY_ID
           - name: AGENT_ID
+            description: Foreign key referencing the agent managing the listing.
             tests:
               - not_null
               - relationships:
@@ -33,29 +38,34 @@ sources:
                     to: source('real_estate', 'AGENTS')
                     field: AGENT_ID
           - name: IS_AVAILABLE
+            description: Flag indicating if the property is currently available (1=Yes, 0=No).
             tests:
               - not_null
               - accepted_values:
                   arguments:
                     values: [0, 1]
           - name: HAS_PARKING
+            description: Flag indicating if the property has parking (1=Yes, 0=No).
             tests:
               - not_null
               - accepted_values:
                   arguments:
                     values: [0, 1]
           - name: HAS_GARDEN
+            description: Flag indicating if the property has a garden (1=Yes, 0=No).
             tests:
               - not_null
               - accepted_values:
                   arguments:
                     values: [0, 1]
           - name: HAS_BALCONY
+            description: Flag indicating if the property has a balcony (1=Yes, 0=No).
             tests:
               - not_null
               - accepted_values:
                   arguments:
                     values: [0, 1]
           - name: LISTING_PRICE
+            description: Listed price of the property.
             tests:
               - not_null

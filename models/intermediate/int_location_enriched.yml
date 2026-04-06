@@ -2,21 +2,29 @@ version: 2
 
 models:
   - name: int_location_enriched
+    description: >
+      Enriched location model joining cities with their parent regions.
+      Serves as the foundation for dim_location in the marts layer.
     columns:
       - name: city_id
+        description: Unique identifier for each city.
         tests:
           - not_null
           - unique
       - name: city_name
+        description: Name of the city.
         tests:
           - not_null
       - name: region_id
+        description: Foreign key to the parent region.
         tests:
           - not_null
       - name: region_name
+        description: Name of the region.
         tests:
           - not_null
       - name: is_major_city
+        description: Flag indicating if the city is a major city (1=Yes, 0=No).
         tests:
           - not_null
           - accepted_values:

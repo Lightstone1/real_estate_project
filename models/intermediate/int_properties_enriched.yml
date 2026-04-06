@@ -2,41 +2,60 @@ version: 2
 
 models:
   - name: int_properties_enriched
+    description: >
+      Enriched properties model joining properties with property types, cities
+      and regions. Includes calculated fields: price_per_sqm, property_age,
+      amenity_count, size_category and price_vs_market.
     columns:
       - name: property_id
+        description: Unique identifier for each property.
         tests:
           - not_null
           - unique
       - name: city_id
+        description: Foreign key to the city where the property is located.
         tests:
           - not_null
       - name: agent_id
+        description: Foreign key to the agent managing the listing.
         tests:
           - not_null
       - name: listing_price
+        description: Listed price of the property.
         tests:
           - not_null
       - name: size_sqm
+        description: Total size of the property in square metres.
         tests:
           - not_null
       - name: is_available
+        description: Flag indicating if the property is available (1=Yes, 0=No).
         tests:
           - not_null
           - accepted_values:
               arguments:
                 values: [0, 1]
       - name: is_residential
+        description: Flag indicating if the property is residential (1=Yes, 0=No).
         tests:
           - not_null
           - accepted_values:
               arguments:
                 values: [0, 1]
       - name: size_category
+        description: Size band — Small (<50sqm), Medium (<100sqm), Large (<200sqm), Extra Large (200sqm+).
         tests:
           - not_null
           - accepted_values:
               arguments:
                 values: ['Small', 'Medium', 'Large', 'Extra Large']
       - name: price_per_sqm
+        description: Listing price divided by size in square metres.
         tests:
           - not_null
+      - name: property_age
+        description: Age of the property in years calculated from build_year.
+      - name: amenity_count
+        description: Total count of amenities — parking, garden, balcony (max 3).
+      - name: price_vs_market
+        description: Difference between listing price and estimated market price.

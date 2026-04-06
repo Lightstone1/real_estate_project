@@ -2,29 +2,43 @@ version: 2
 
 models:
   - name: int_clients_enriched
+    description: >
+      Enriched clients model joining clients with their city and region.
+      Includes client_age, age_band and days_since_registered calculations.
+      client_full_name falls back to company_name for corporate clients.
     columns:
       - name: client_id
+        description: Unique identifier for each client.
         tests:
           - not_null
           - unique
       - name: client_full_name
+        description: Full name of the client. Falls back to company_name for corporate clients.
         tests:
           - not_null
       - name: email
+        description: Email address of the client.
         tests:
           - not_null
       - name: client_type
+        description: Type of client — Individual or Corporate.
         tests:
           - not_null
       - name: is_verified
+        description: Flag indicating if the client is verified (1=Yes, 0=No).
         tests:
           - not_null
           - accepted_values:
               arguments:
                 values: [0, 1]
       - name: age_band
+        description: Age group band — 18-29, 30-39, 40-49, 50-59, or 60+.
         tests:
           - not_null
           - accepted_values:
               arguments:
                 values: ['18-29', '30-39', '40-49', '50-59', '60+']
+      - name: client_age
+        description: Current age of the client in years.
+      - name: days_since_registered
+        description: Number of days since the client registered.

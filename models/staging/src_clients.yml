@@ -6,18 +6,23 @@ sources:
     schema: real_estate
     tables:
       - name: CLIENTS
+        description: Raw table containing all clients — both individual and corporate.
         columns:
           - name: CLIENT_ID
+            description: Unique identifier for each client.
             tests:
               - not_null
               - unique
           - name: CLIENT_TYPE
+            description: Type of client — Individual or Corporate.
             tests:
               - not_null
           - name: EMAIL
+            description: Email address of the client.
             tests:
               - not_null
           - name: CITY_ID
+            description: Foreign key referencing the city where the client is located.
             tests:
               - not_null
               - relationships:
@@ -25,6 +30,7 @@ sources:
                     to: source('real_estate', 'CITIES')
                     field: CITY_ID
           - name: IS_VERIFIED
+            description: Flag indicating if the client is verified (1=Yes, 0=No).
             tests:
               - not_null
               - accepted_values:

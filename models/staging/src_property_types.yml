@@ -6,19 +6,24 @@ sources:
     schema: real_estate
     tables:
       - name: PROPERTY_TYPES
+        description: Raw lookup table containing all property type definitions.
         columns:
           - name: TYPE_ID
+            description: Unique identifier for each property type.
             tests:
               - not_null
               - unique
           - name: TYPE_CODE
+            description: Short code for the property type.
             tests:
               - not_null
               - unique
           - name: TYPE_NAME
+            description: Full name of the property type (e.g. Apartment, Villa, Office).
             tests:
               - not_null
           - name: IS_RESIDENTIAL
+            description: Flag indicating if the property type is residential (1=Yes, 0=No).
             tests:
               - not_null
               - accepted_values:

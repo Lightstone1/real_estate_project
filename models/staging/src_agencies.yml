@@ -6,19 +6,24 @@ sources:
     schema: real_estate
     tables:
       - name: AGENCIES
+        description: Raw table containing all real estate agencies.
         columns:
           - name: AGENCY_ID
+            description: Unique identifier for each agency.
             tests:
               - not_null
               - unique
           - name: AGENCY_NAME
+            description: Name of the agency.
             tests:
               - not_null
           - name: LICENSE_NUMBER
+            description: Unique license number of the agency.
             tests:
               - not_null
               - unique
           - name: CITY_ID
+            description: Foreign key referencing the city where the agency is located.
             tests:
               - not_null
               - relationships:
@@ -26,9 +31,11 @@ sources:
                     to: source('real_estate', 'CITIES')
                     field: CITY_ID
           - name: EMAIL
+            description: Email address of the agency.
             tests:
               - not_null
           - name: IS_ACTIVE
+            description: Flag indicating if the agency is currently active (1=Yes, 0=No).
             tests:
               - not_null
               - accepted_values:

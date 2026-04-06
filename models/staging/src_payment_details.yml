@@ -6,11 +6,14 @@ sources:
     schema: real_estate
     tables:
       - name: PAYMENT_DETAILS
+        description: Raw table containing payment methods and financing details for transactions.
         columns:
           - name: PAYMENT_ID
+            description: Unique identifier for each payment record.
             tests:
               - not_null
               - unique
           - name: PAYMENT_METHOD
+            description: Method of payment — Cash, Mortgage, Bank Transfer, or Installment.
             tests:
               - not_null

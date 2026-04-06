@@ -4,18 +4,23 @@ sources:
   - name: real_estate
     database: real_estate_raw_db
     schema: real_estate
+    description: Raw real estate data loaded from the source database.
     tables:
       - name: TRANSACTIONS
+        description: Raw table containing all real estate transactions including sales and rentals.
         columns:
           - name: TRANSACTION_ID
+            description: Unique identifier for each transaction.
             tests:
               - not_null
               - unique
           - name: TRANSACTION_REF
+            description: Human-readable transaction reference code.
             tests:
               - not_null
               - unique
           - name: PROPERTY_ID
+            description: Foreign key referencing the property involved in the transaction.
             tests:
               - not_null
               - relationships:
@@ -23,6 +28,7 @@ sources:
                     to: source('real_estate', 'PROPERTIES')
                     field: PROPERTY_ID
           - name: CLIENT_ID
+            description: Foreign key referencing the client in the transaction.
             tests:
               - not_null
               - relationships:
@@ -30,6 +36,7 @@ sources:
                     to: source('real_estate', 'CLIENTS')
                     field: CLIENT_ID
           - name: AGENT_ID
+            description: Foreign key referencing the agent handling the transaction.
             tests:
               - not_null
               - relationships:
@@ -37,6 +44,7 @@ sources:
                     to: source('real_estate', 'AGENTS')
                     field: AGENT_ID
           - name: PAYMENT_ID
+            description: Foreign key referencing the payment details for the transaction.
             tests:
               - not_null
               - relationships:
@@ -44,14 +52,18 @@ sources:
                     to: source('real_estate', 'PAYMENT_DETAILS')
                     field: PAYMENT_ID
           - name: TRANSACTION_TYPE
+            description: Type of transaction — SALE or RENT.
             tests:
               - not_null
           - name: TRANSACTION_DATE
+            description: Date the transaction was agreed.
             tests:
               - not_null
           - name: AGREED_PRICE
+            description: Final agreed price for the transaction.
             tests:
               - not_null
           - name: STATUS
+            description: Current status of the transaction — COMPLETED, PENDING, or CANCELLED.
             tests:
               - not_null

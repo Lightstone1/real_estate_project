@@ -2,35 +2,47 @@ version: 2
 
 models:
   - name: int_agents_enriched
+    description: >
+      Enriched agents model joining agents with their agencies and location
+      (city and region). Includes seniority_band classification and years_since_hired.
     columns:
       - name: agent_id
+        description: Unique identifier for each agent.
         tests:
           - not_null
           - unique
       - name: agency_id
+        description: Foreign key to the agency the agent belongs to.
         tests:
           - not_null
       - name: agent_full_name
+        description: Full name of the agent (first + last name).
         tests:
           - not_null
       - name: agent_email
+        description: Email address of the agent.
         tests:
           - not_null
       - name: agent_is_active
+        description: Flag indicating if the agent is active (1=Yes, 0=No).
         tests:
           - not_null
           - accepted_values:
               arguments:
                 values: [0, 1]
       - name: agency_is_active
+        description: Flag indicating if the agency is active (1=Yes, 0=No).
         tests:
           - not_null
           - accepted_values:
               arguments:
                 values: [0, 1]
       - name: seniority_band
+        description: Seniority classification based on years_experience — Junior, Mid-Level, Senior, or Expert.
         tests:
           - not_null
           - accepted_values:
               arguments:
                 values: ['Junior', 'Mid-Level', 'Senior', 'Expert']
+      - name: years_since_hired
+        description: Number of years since the agent was hired.

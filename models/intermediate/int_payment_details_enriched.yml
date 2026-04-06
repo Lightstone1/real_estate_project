@@ -2,11 +2,16 @@ version: 2
 
 models:
   - name: int_payment_details_enriched
+    description: >
+      Intermediate pass-through model for payment details.
+      Provides a clean interface between staging and dim_payment_details.
     columns:
       - name: payment_id
+        description: Unique identifier for each payment record.
         tests:
           - not_null
           - unique
       - name: payment_method
+        description: Method of payment — Cash, Mortgage, Bank Transfer, or Installment.
         tests:
           - not_null
