@@ -5,6 +5,14 @@ models:
     description: >
       Dimension table for all agents and their associated agencies.
       Includes location, seniority classification, and active status labels.
+    tests:
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          arguments:
+            min_value: 1
+            max_value: 100000
+      - dbt_utils.expression_is_true:
+          arguments:
+            expression: "years_experience >= 0"
     columns:
       - name: agent_id
         description: Unique identifier for each agent.
@@ -28,17 +36,29 @@ models:
                 values: [0, 1]
       - name: agent_status
         description: Human-readable active status label — Active or Inactive.
+      - name: years_experience
+        description: Number of years of experience the agent has.
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: 0
+                max_value: 60
+      - name: years_since_hired
+        description: Number of years since the agent was hired.
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: 0
+                max_value: 60
       - name: specialization
-        description: Agent's area of specialization (e.g. Residential, Commercial).
+        description: Agent's area of specialization.
       - name: seniority_band
-        description: Seniority classification based on years_experience — Junior, Mid-Level, Senior, or Expert.
+        description: Seniority classification — Junior, Mid-Level, Senior, or Expert.
         tests:
           - not_null
           - accepted_values:
               arguments:
                 values: ['Junior', 'Mid-Level', 'Senior', 'Expert']
-      - name: years_since_hired
-        description: Number of years since the agent was hired.
       - name: agency_name
         description: Name of the agency the agent belongs to.
         tests:

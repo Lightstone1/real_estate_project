@@ -5,6 +5,14 @@ models:
     description: >
       Dimension table for all clients — both individual and corporate.
       Enriched with location details, age bands, and verification status labels.
+    tests:
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          arguments:
+            min_value: 1
+            max_value: 1000000
+      - dbt_utils.expression_is_true:
+          arguments:
+            expression: "days_since_registered >= 0"
     columns:
       - name: client_id
         description: Unique identifier for each client.
@@ -33,7 +41,12 @@ models:
       - name: verification_status
         description: Human-readable verification status — Active or Inactive.
       - name: client_age
-        description: Current age of the client in years calculated from date_of_birth.
+        description: Current age of the client in years.
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: 18
+                max_value: 120
       - name: age_band
         description: Age group band — 18-29, 30-39, 40-49, 50-59, or 60+.
         tests:
@@ -43,6 +56,10 @@ models:
                 values: ['18-29', '30-39', '40-49', '50-59', '60+']
       - name: days_since_registered
         description: Number of days since the client registered.
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: 0
       - name: city_name
         description: City where the client is located.
       - name: region_name

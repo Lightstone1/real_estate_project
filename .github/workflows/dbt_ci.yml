@@ -1,0 +1,60 @@
+name: dbt CI
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  dbt-test:
+    name: Run dbt Tests
+    runs-on: ubuntu-latest
+
+    env:
+      DBT_PROFILES_DIR: ./
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dbt
+        run: |
+          pip install dbt-snowflake==1.11.2
+
+      - name: Create profiles.yml
+        run: |
+          cat <<EOF > profiles.yml
+          real_estate_project:
+            outputs:
+              dev:
+                type: snowflake
+                account: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+                user: ${{ secrets.SNOWFLAKE_USER }}
+                password: ${{ secrets.SNOWFLAKE_PASSWORD }}
+                role: ACCOUNTADMIN
+                database: REAL_ESTATE_DB
+                warehouse: TRANSFORMING
+                schema: analytics
+                threads: 4
+            target: dev
+          EOF
+
+      - name: Install dbt packages
+        run: dbt deps
+
+      - name: Run dbt debug
+        run: dbt debug
+
+      - name: Load seeds
+        run: dbt seed
+
+      - name: Run dbt models
+        run: dbt run
+
+      - name: Run dbt tests
+        run: dbt test

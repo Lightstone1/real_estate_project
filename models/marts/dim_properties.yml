@@ -5,6 +5,17 @@ models:
     description: >
       Dimension table for all real estate properties. Enriched with property type,
       location, energy ratings, condition labels, and calculated pricing metrics.
+    tests:
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          arguments:
+            min_value: 1
+            max_value: 1000000
+      - dbt_utils.expression_is_true:
+          arguments:
+            expression: "listing_price >= 0"
+      - dbt_utils.expression_is_true:
+          arguments:
+            expression: "size_sqm > 0"
     columns:
       - name: property_id
         description: Unique identifier for each property.
@@ -17,10 +28,18 @@ models:
           - not_null
       - name: size_sqm
         description: Total size of the property in square metres.
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: 1
+                max_value: 100000
       - name: listing_price
         description: Listed price of the property rounded to 2 decimal places.
         tests:
           - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: 0
       - name: is_available
         description: Flag indicating if the property is currently available (1=Yes, 0=No).
         tests:
@@ -41,12 +60,22 @@ models:
         description: Human-readable condition label from the property_condition_labels seed.
       - name: condition_rank
         description: Rank of property condition from 1 (best) to 5 (worst).
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: 1
+                max_value: 5
       - name: energy_class
         description: Energy efficiency class rating (A to G).
       - name: energy_label
         description: Human-readable energy label from the energy_class_ratings seed.
       - name: efficiency_rank
         description: Rank of energy efficiency from 1 (most efficient) to 7 (least).
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: 1
+                max_value: 7
       - name: type_name
         description: Name of the property type (e.g. Apartment, Villa, Office).
         tests:
@@ -61,10 +90,24 @@ models:
           - not_null
       - name: price_per_sqm
         description: Listing price divided by size in square metres.
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: 0
       - name: property_age
         description: Age of the property in years calculated from build_year.
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: 0
+                max_value: 200
       - name: amenity_count
         description: Total count of amenities — parking, garden, balcony (max 3).
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: 0
+                max_value: 3
       - name: size_category
         description: Categorised size band — Small, Medium, Large, or Extra Large.
         tests:
@@ -73,4 +116,4 @@ models:
               arguments:
                 values: ['Small', 'Medium', 'Large', 'Extra Large']
       - name: price_vs_market
-        description: Difference between listing price and estimated market price based on base_price_sqm and region multiplier.
+        description: Difference between listing price and estimated market price.

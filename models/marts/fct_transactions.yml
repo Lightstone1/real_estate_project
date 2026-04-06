@@ -6,6 +6,20 @@ models:
       Fact table containing all real estate transactions. Each row represents
       a single transaction including sale or rental of a property. Contains
       foreign keys to all dimension tables and key financial measures.
+    tests:
+      - dbt_expectations.expect_table_row_count_to_be_between:
+          arguments:
+            min_value: 1
+            max_value: 10000000
+      - dbt_utils.expression_is_true:
+          arguments:
+            expression: "agreed_price >= 0"
+      - dbt_utils.expression_is_true:
+          arguments:
+            expression: "commission_amount >= 0"
+      - dbt_utils.expression_is_true:
+          arguments:
+            expression: "discount_amount >= 0"
     columns:
       - name: transaction_id
         description: Unique identifier for each transaction.
@@ -57,36 +71,73 @@ models:
         description: Date the transaction was agreed.
         tests:
           - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: "'2015-01-01'"
+                max_value: "'2030-12-31'"
       - name: status
-        description: Current status of the transaction — COMPLETED, PENDING, or CANCELLED.
+        description: Current status of the transaction — Completed, Pending, Cancelled, or Under Contract.
         tests:
           - not_null
+          - accepted_values:
+              arguments:
+                values: ['Completed', 'Pending', 'Cancelled', 'Under Contract']
       - name: transaction_year
         description: Year extracted from transaction_date.
         tests:
           - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: 2015
+                max_value: 2030
       - name: transaction_quarter
         description: Quarter extracted from transaction_date.
         tests:
           - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: 1
+                max_value: 4
       - name: transaction_month
         description: Month extracted from transaction_date.
         tests:
           - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: 1
+                max_value: 12
       - name: listing_price
         description: Original listed price of the property.
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: 0
       - name: agreed_price
         description: Final agreed sale or rental price.
         tests:
           - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: 0
       - name: discount_amount
         description: Discount given from listing price to agreed price.
-      - name: discount_pct
-        description: Discount as a percentage of the listing price.
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: 0
       - name: commission_rate
         description: Commission rate applied to the transaction.
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: 0
+                max_value: 100
       - name: commission_amount
         description: Total commission earned on the transaction.
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              arguments:
+                min_value: 0
       - name: price_achieved_pct
         description: Agreed price as a percentage of listing price. 100% means no discount.
       - name: contract_duration_days
